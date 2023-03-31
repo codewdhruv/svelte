@@ -64,3 +64,30 @@ pipeline:
                         store/             
                         transition/             
                         types/"
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Ignore
+              - step:
+                  type: Run
+                  name: Run integration test
+                  identifier: Run_integration_test
+                  spec:
+                    shell: Sh
+                    command: npm run test:integration
+              - step:
+                  type: Run
+                  name: Lint tests
+                  identifier: Lint_tests
+                  spec:
+                    shell: Sh
+                    command: npm i && npm run lint
+              - step:
+                  type: Run
+                  name: Run unit tests
+                  identifier: Run_unit_tests
+                  spec:
+                    shell: Sh
+                    command: npm run test:unit
