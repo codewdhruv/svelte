@@ -84,6 +84,9 @@ pipeline:
                   spec:
                     shell: Sh
                     command: npm i && npm run lint
+                  when:
+                    stageStatus: All
+                  failureStrategies: []
               - step:
                   type: Run
                   name: Run unit tests
@@ -91,3 +94,6 @@ pipeline:
                   spec:
                     shell: Sh
                     command: npm run test:unit
+                  when:
+                    stageStatus: All
+                  failureStrategies: []
