@@ -1,0 +1,66 @@
+pipeline:
+  name: svelte-test
+  identifier: sveltetest
+  projectIdentifier: NgLabs
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: gitconnectordhruba
+        repoName: svelte
+        build: <+input>
+  stages:
+    - stage:
+        name: setup and test
+        identifier: setup_and_test
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Install node modules
+                  identifier: Install_node_modules
+                  spec:
+                    shell: Sh
+                    command: npm install
+                    envVariables:
+                      SKIP_PREPARE: "true"
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: Build
+                  spec:
+                    shell: Sh
+                    command: npm run build
+                    envVariables:
+                      PUBLISH: "true"
+              - step:
+                  type: Action
+                  name: Upload build assets
+                  identifier: Upload_build_assets
+                  spec:
+                    uses: actions/upload-artifact@v3
+                    with:
+                      name: build-assets
+                      path: |
+                        index.*             
+                        compiler.*             
+                        ssr.*             
+                        action/             
+                        animate/             
+                        easing/             
+                        internal/             
+                        motion/             
+                        store/             
+                        transition/             
+                        types/"
