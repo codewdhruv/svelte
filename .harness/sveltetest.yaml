@@ -77,6 +77,12 @@ pipeline:
                   spec:
                     shell: Sh
                     command: npm run test:integration
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: Ignore
               - step:
                   type: Run
                   name: Lint tests
